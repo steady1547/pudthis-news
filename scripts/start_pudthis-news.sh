@@ -1,0 +1,1 @@
+nohup java -jar pudthis-news/pudthis-news-0.0.1-SNAPSHOT.jar &> logs/pudthis-news.log &

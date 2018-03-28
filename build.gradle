@@ -1,0 +1,60 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.8.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+eclipse {
+    project {
+        name = 'pudthis-news'
+    }
+}
+group = 'com.linebot.springboot'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+jar {
+	manifest {
+		attributes  'Title': 'Line bot test', 'Main-Class': 'com.linebot.springboot.LineBotSpringBootApplication'
+	}
+	dependsOn configurations.runtime
+	from {
+		configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+	}
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-tomcat')
+
+	// line bot spring boot
+	compile('com.linecorp.bot:line-bot-spring-boot:1.10.0')
+
+	// lombok
+	compileOnly ('org.projectlombok:lombok:1.16.18')
+
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.jsoup:jsoup:1.11.1')
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+
+	runtime('org.hsqldb:hsqldb')
+	runtime('mysql:mysql-connector-java')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
